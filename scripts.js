@@ -1,6 +1,6 @@
 class AudioController {
     constructor() {
-        this.bgMusic = new Audio('Assets/Audio/creepy.mp3');
+        this.bgMusic = new Audio('Assets/Audio/waves.mp3');
         this.flipSound = new Audio('Assets/Audio/flip.wav');
         this.matchSound = new Audio('Assets/Audio/match.wav');
         this.victorySound = new Audio('Assets/Audio/victory.wav');
@@ -31,7 +31,7 @@ class AudioController {
     }
 }
 
-class MixOrMatch {
+class SummerMemories {
     constructor(totalTime, cards) {
         this.cardsArray = cards;
         this.totalTime = totalTime;
@@ -144,7 +144,7 @@ if (document.readyState == 'loading') {
 function ready() {
     let overlays = Array.from(document.getElementsByClassName('overlay-text'));
     let cards = Array.from(document.getElementsByClassName('card'));
-    let game = new MixOrMatch(100, cards);
+    let game = new SummerMemories(100, cards);
 
     overlays.forEach(overlay => {
         overlay.addEventListener('click', () => {
