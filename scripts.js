@@ -1,10 +1,10 @@
 class AudioController {
     constructor() {
-        this.bgMusic = new Audio('Assets/audio/waves.mp3');
-        this.flipSound = new Audio('Assets/audio/flip.mp3');
-        this.matchSound = new Audio('Assets/audio/match.mp3');
-        this.victorySound = new Audio('Assets/audio/victory.mp3');
-        this.gameOverSound = new Audio('Assets/audio/gameOver.mp3');
+        this.bgMusic = new Audio('Assets/Audio/creepy.mp3');
+        this.flipSound = new Audio('Assets/Audio/flip.wav');
+        this.matchSound = new Audio('Assets/Audio/match.wav');
+        this.victorySound = new Audio('Assets/Audio/victory.wav');
+        this.gameOverSound = new Audio('Assets/Audio/gameOver.wav');
         this.bgMusic.volume = 0.5;
         this.bgMusic.loop = true;
     }
@@ -31,7 +31,7 @@ class AudioController {
     }
 }
 
-class SummerMemories {
+class MixOrMatch {
     constructor(totalTime, cards) {
         this.cardsArray = cards;
         this.totalTime = totalTime;
@@ -50,14 +50,14 @@ class SummerMemories {
         setTimeout(() => {
             this.audioController.startMusic();
             this.shuffleCards(this.cardsArray);
-            this.countDown = this.startCountDown();
+            this.countdown = this.startCountdown();
             this.busy = false;
         }, 500)
         this.hideCards();
-        this.timer.innertext = this.timeRemaining;
+        this.timer.innerText = this.timeRemaining;
         this.ticker.innerText = this.totalClicks;
-    } 
-    startCountDown() {
+    }
+    startCountdown() {
         return setInterval(() => {
             this.timeRemaining--;
             this.timer.innerText = this.timeRemaining;
@@ -74,7 +74,7 @@ class SummerMemories {
         clearInterval(this.countdown);
         this.audioController.victory();
         document.getElementById('victory-text').classList.add('visible');
-    }     
+    }
     hideCards() {
         this.cardsArray.forEach(card => {
             card.classList.remove('visible');
@@ -97,22 +97,22 @@ class SummerMemories {
     }
     checkForCardMatch(card) {
         if(this.getCardType(card) === this.getCardType(this.cardToCheck))
-            this.cardMatch(card, this.cardTocheck);
-        else
-            this.cardMisMatch(card, this.cardTocheck);
+            this.cardMatch(card, this.cardToCheck);
+        else 
+            this.cardMismatch(card, this.cardToCheck);
 
-        this.cardTocheck = null;
+        this.cardToCheck = null;
     }
     cardMatch(card1, card2) {
         this.matchedCards.push(card1);
         this.matchedCards.push(card2);
-        card1.classList.add('Matched');
-        card2.classList.add('Matched');
+        card1.classList.add('matched');
+        card2.classList.add('matched');
         this.audioController.match();
         if(this.matchedCards.length === this.cardsArray.length)
             this.victory();
     }
-    cardMisMatch(card1, card2) {
+    cardMismatch(card1, card2) {
         this.busy = true;
         setTimeout(() => {
             card1.classList.remove('visible');
@@ -120,7 +120,7 @@ class SummerMemories {
             this.busy = false;
         }, 1000);
     }
-    shuffleCards(cardsArray) {
+    shuffleCards(cardsArray) { // Fisher-Yates Shuffle Algorithm.
         for (let i = cardsArray.length - 1; i > 0; i--) {
             let randIndex = Math.floor(Math.random() * (i + 1));
             cardsArray[randIndex].style.order = i;
@@ -132,7 +132,7 @@ class SummerMemories {
     }
     canFlipCard(card) {
         return !this.busy && !this.matchedCards.includes(card) && card !== this.cardToCheck;
-    }   
+    }
 }
 
 if (document.readyState == 'loading') {
@@ -144,9 +144,9 @@ if (document.readyState == 'loading') {
 function ready() {
     let overlays = Array.from(document.getElementsByClassName('overlay-text'));
     let cards = Array.from(document.getElementsByClassName('card'));
-    let game = new SummerMemories(100, cards);
+    let game = new MixOrMatch(100, cards);
 
-     overlays.forEach(overlay => {
+    overlays.forEach(overlay => {
         overlay.addEventListener('click', () => {
             overlay.classList.remove('visible');
             game.startGame();
@@ -159,8 +159,3 @@ function ready() {
         });
     });
 }
-
-
-
-
-
